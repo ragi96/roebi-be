@@ -22,8 +22,7 @@ jobs:
         sonarProjectKey: ragi96_roebi-be
         # The name of the SonarQube project
         sonarProjectName:  ragi96_roebi-be
-        # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
-        sonarOrganization: ragi96
+        sonarHostname: ${{ secrets.SONAR_HOST_URL }}
         # Optional command arguments to dotnet build
         dotnetBuildArguments: ./src
       env:
