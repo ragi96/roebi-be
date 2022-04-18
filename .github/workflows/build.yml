@@ -25,6 +25,7 @@ jobs:
         sonarHostname: ${{ secrets.SONAR_HOST_URL }}
         # Optional command arguments to dotnet build
         dotnetBuildArguments: ./src
+        dotnetTestArguments: ./src
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
