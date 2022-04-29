@@ -11,8 +11,6 @@ namespace Roebi.RoomManagment.Api
         public RoomController(ILogger<RoomController> logger)
         {
             _logger = logger;
-            var test = 't';
-            test.CompareTo('t');
         }
 
         [HttpGet(Name = "GetRooms")]
