@@ -4,7 +4,7 @@ namespace Roebi.Common.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRoomRepository Address
+        IRoomRepository Room
         {
             get;
         }

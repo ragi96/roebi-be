@@ -9,15 +9,13 @@ namespace Roebi.Common.UnitOfWork
         public UnitOfWork(RoebiContext context)
         {
             this.context = context;
-            Address = new RoomRepository(this.context);
+            Room = new RoomRepository(this.context);
         }
-        public IRoomRepository Address
+        public IRoomRepository Room
         {
             get;
             private set;
         }
-
-        IRoomRepository IUnitOfWork.Address => throw new NotImplementedException();
 
         public void Dispose()
         {
