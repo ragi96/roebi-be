@@ -7,6 +7,6 @@ namespace Roebi.PatientManagment.Application.Repository
 
     class RoomRepository : GenericRepository<Room>, IRoomRepository
     {
-        public RoomRepository(AppContext context) : base(context) { }
+        public RoomRepository(RoebiContext context) : base(context) { }
     }
 }

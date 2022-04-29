@@ -3,9 +3,9 @@ using Roebi.PatientManagment.Domain;
 
 namespace Roebi.Common.Context
 {
-    public class AppContext : DbContext
+    public class RoebiContext : DbContext
     {
-        public AppContext(DbContextOptions options) : base(options)
+        public RoebiContext(DbContextOptions options) : base(options)
         {
         }
 

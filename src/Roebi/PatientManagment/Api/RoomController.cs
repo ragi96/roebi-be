@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Roebi.Common.UnitOfWork;
+using Roebi.PatientManagment.Domain;
 
 namespace Roebi.RoomManagment.Api
 {
@@ -6,17 +8,17 @@ namespace Roebi.RoomManagment.Api
     [Route("[controller]")]
     public class RoomController : ControllerBase
     {
-        private readonly ILogger<RoomController> _logger;
+        private readonly IUnitOfWork unitOfWork;
 
-        public RoomController(ILogger<RoomController> logger)
+        public RoomController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            this.unitOfWork = unitOfWork;
         }
 
-        [HttpGet(Name = "GetRooms")]
-        public string Get()
+        [HttpGet]
+        public IEnumerable<Room> GetRooms()
         {
-            return "asdasd";
+            return unitOfWork.Room.GetAll();
         }
     }
 }

@@ -5,8 +5,8 @@
 
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly AppContext context;
-        public GenericRepository(AppContext context)
+        protected readonly RoebiContext context;
+        public GenericRepository(RoebiContext context)
         {
             this.context = context;
         }

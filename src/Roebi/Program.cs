@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Roebi.Common.Context;
+using Roebi.Common.UnitOfWork;
 using Roebi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<global::Roebi.Common.Context.AppContext>((global::Microsoft.EntityFrameworkCore.DbContextOptionsBuilder options) => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<RoebiContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
