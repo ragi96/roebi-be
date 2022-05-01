@@ -9,22 +9,30 @@ services:
   database:
     #Pull the latest mysql image
     image: mysql:8.0.29
-    #Map port 3306 on the mysql container to port 3306 in the host
-    ports:
-      - "3306:3306"
     #Specify where the persisted Data should be stored
     volumes:
       - datafiles:/var/lib/mysql
+    ports:
+      - "3306:3306"
     restart: always
     #Specify Environment Variables for mysql
     environment: 
       MYSQL_ROOT_PASSWORD: development
       MYSQL_DATABASE: roebi
   #Api  Service
-  api:
-    image: ${DOCKER_REGISTRY-}api
+  roebi:
+    image: ${DOCKER_REGISTRY-}roebi
     build:
       context: .
-      dockerfile: "./Roebi/Dockerfile"
+      dockerfile: Roebi/Dockerfile
     depends_on:
-      - db
+      - database
+    ports:
+      - "44360:443"
+      - "51803:80"
+    restart: always
+    environment:
+      - DBHOST=database
+      - DBPORT=3306
+      - DBPASSWORD=development
+      - DBNAME=roebi

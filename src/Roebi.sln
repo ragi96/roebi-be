@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roebi", "Roebi\Roebi.csproj", "{8F27A474-9C66-437D-A4FF-2278BB7BE716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roebi.Test", "Roebi.Test\Roebi.Test.csproj", "{F96D7DEF-2260-40FA-A269-EB7B5862B41A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roebi.Test", "Roebi.Test\Roebi.Test.csproj", "{F96D7DEF-2260-40FA-A269-EB7B5862B41A}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BFB43FBA-65DD-4546-A341-DCB36CAF6B0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F96D7DEF-2260-40FA-A269-EB7B5862B41A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F96D7DEF-2260-40FA-A269-EB7B5862B41A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F96D7DEF-2260-40FA-A269-EB7B5862B41A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFB43FBA-65DD-4546-A341-DCB36CAF6B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB43FBA-65DD-4546-A341-DCB36CAF6B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB43FBA-65DD-4546-A341-DCB36CAF6B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB43FBA-65DD-4546-A341-DCB36CAF6B0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
 
-    [Table("Employee")]
+    [Table("Room")]
     public class Room
     {
         [Key]
