@@ -24,8 +24,8 @@ jobs:
         sonarProjectName:  ragi96_roebi-be
         sonarHostname: ${{ secrets.SONAR_HOST_URL }}
         # Optional command arguments to dotnet build
-        dotnetBuildArguments: ./src
-        dotnetTestArguments: ./src
+        dotnetBuildArguments: ./src/Roebi.sln
+        dotnetTestArguments: ./src/Roebi.sln
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
