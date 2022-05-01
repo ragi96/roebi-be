@@ -20,7 +20,7 @@ namespace Roebi.Common.UnitOfWork
         public void Dispose()
         {
             context.Dispose();
-            GC.SuppressFinalize(Room);
+            GC.SuppressFinalize(this);
         }
         public int Save()
         {
