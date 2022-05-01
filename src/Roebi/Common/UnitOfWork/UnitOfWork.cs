@@ -3,7 +3,7 @@ using Roebi.PatientManagment.Application.Repository;
 
 namespace Roebi.Common.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    public sealed class UnitOfWork : IUnitOfWork
     {
         private RoebiContext context;
         public UnitOfWork(RoebiContext context)

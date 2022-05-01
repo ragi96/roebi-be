@@ -37,7 +37,6 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityRequirement(requirement);
 });
 
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var host = builder.Configuration["DBHOST"] ?? "localhost";
 var port = builder.Configuration["DBPORT"] ?? "3306";
 var password = builder.Configuration["DBPASSWORD"] ?? "development";
