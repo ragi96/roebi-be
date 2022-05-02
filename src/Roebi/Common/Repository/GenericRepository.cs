@@ -38,5 +38,9 @@
         {
             context.Set<T>().RemoveRange(entities);
         }
+
+        public void Update(T entity) { 
+            context.Set<T>().Update(entity);
+        }
     }
 }

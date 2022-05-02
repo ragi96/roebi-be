@@ -22,9 +22,9 @@ namespace Roebi.RoomManagment.Api
         }
 
         [HttpGet("{id}")]
-        public Room GetSingleRoom(string id) 
+        public Room GetSingleRoom(int id) 
         {
-            return unitOfWork.Room.GetById(Int32.Parse(id));
+            return unitOfWork.Room.GetById(id);
         }
 
         [HttpPost]
@@ -33,5 +33,12 @@ namespace Roebi.RoomManagment.Api
             unitOfWork.Room.Add(room);
             unitOfWork.Save();
         }
+
+        [HttpPut]
+        public void Put(Room room) {
+            unitOfWork.Room.Update(room);
+            unitOfWork.Save();
+        }
+       
     }
 }
