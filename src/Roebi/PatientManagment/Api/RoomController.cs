@@ -20,5 +20,18 @@ namespace Roebi.RoomManagment.Api
         {
             return unitOfWork.Room.GetAll();
         }
+
+        [HttpGet("{id}")]
+        public Room GetSingleRoom(string id) 
+        {
+            return unitOfWork.Room.GetById(Int32.Parse(id));
+        }
+
+        [HttpPost]
+        public void Post([FromBody] Room room)
+        {
+            unitOfWork.Room.Add(room);
+            unitOfWork.Save();
+        }
     }
 }
