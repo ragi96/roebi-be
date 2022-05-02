@@ -68,12 +68,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-// global cors policy
-app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
-
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<JwtMiddleware>();

@@ -15,13 +15,11 @@
     {
         private readonly IUnitOfWork unitOfWork;
         private IJwtUtils _jwtUtils;
-        private readonly AppSettings _appSettings;
 
-        public UserController(IUnitOfWork unitOfWork, IJwtUtils jwtUtils, IOptions<AppSettings> appSettings)
+        public UserController(IUnitOfWork unitOfWork, IJwtUtils jwtUtils)
         {
             this.unitOfWork = unitOfWork;
             _jwtUtils = jwtUtils;
-            _appSettings = appSettings.Value;
         }
 
 
@@ -50,7 +48,7 @@
         public IActionResult GetById(int id)
         {
             // only admins can access other user records
-            var currentUser = (User)HttpContext.Items["User"];
+            var currentUser = HttpContext.Items["User"] as User;
             if (id != currentUser.Id && currentUser.Role != Role.Admin)
                 return Unauthorized(new { message = "Unauthorized" });
 

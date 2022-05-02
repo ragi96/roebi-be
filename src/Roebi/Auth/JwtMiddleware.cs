@@ -7,12 +7,10 @@ namespace Roebi.Auth
     public class JwtMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly AppSettings _appSettings;
 
-        public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
+        public JwtMiddleware(RequestDelegate next)
         {
             _next = next;
-            _appSettings = appSettings.Value;
         }
 
         public async Task Invoke(HttpContext context, IUnitOfWork unitOfWork, IJwtUtils jwtUtils)
