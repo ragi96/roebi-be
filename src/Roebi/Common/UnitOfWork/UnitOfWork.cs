@@ -1,5 +1,6 @@
 ﻿using Roebi.Common.Context;
 using Roebi.PatientManagment.Application.Repository;
+using Roebi.UserManagment.Application.Repository;
 
 namespace Roebi.Common.UnitOfWork
 {
@@ -10,8 +11,15 @@ namespace Roebi.Common.UnitOfWork
         {
             this.context = context;
             Room = new RoomRepository(this.context);
+            User = new UserRepository(this.context);
         }
         public IRoomRepository Room
+        {
+            get;
+            private set;
+        }
+
+        public IUserRepository User
         {
             get;
             private set;
