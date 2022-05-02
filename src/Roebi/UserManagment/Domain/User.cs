@@ -1,6 +1,5 @@
 ﻿namespace Roebi.UserManagment.Domain
 {
-    using System.Text.Json.Serialization;
 
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +17,6 @@
         public string Username { get; set; }
         public Role Role { get; set; }
 
-        [JsonIgnore]
         public string PasswordHash { get; set; }
     }
 }

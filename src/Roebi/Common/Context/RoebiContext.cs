@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Roebi.PatientManagment.Domain;
+using Roebi.UserManagment.Domain;
 
 namespace Roebi.Common.Context
 {
@@ -9,6 +10,7 @@ namespace Roebi.Common.Context
         {
         }
 
-        DbSet<Room> Rooms { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

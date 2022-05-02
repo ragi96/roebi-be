@@ -13,7 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => {
+    /*c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });*/
+});
 
 var host = builder.Configuration["DBHOST"] ?? "localhost";
 var port = builder.Configuration["DBPORT"] ?? "3306";
@@ -46,10 +57,8 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader());
 
-// global error handler
-app.UseMiddleware<ErrorHandlerMiddleware>();
 
-// custom jwt auth middleware
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 app.Run();

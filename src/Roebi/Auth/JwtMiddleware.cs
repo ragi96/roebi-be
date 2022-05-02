@@ -21,7 +21,7 @@ namespace Roebi.Auth
             var userId = jwtUtils.ValidateJwtToken(token);
             if (userId != null)
             {
-                //context.Items["User"] = userService.GetById(userId.Value);
+                context.Items["User"] = unitOfWork.User.GetById(userId.Value);
             }
 
             await _next(context);

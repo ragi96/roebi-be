@@ -9,6 +9,8 @@
     using Roebi.Helper;
     using Roebi.UserManagment.Domain;
 
+    [ApiController]
+    [Route("[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;
@@ -48,7 +50,7 @@
         public IActionResult GetById(int id)
         {
             // only admins can access other user records
-            var currentUser = HttpContext.Items["User"] as User;
+            var currentUser = (User)HttpContext.Items["User"];
             if (id != currentUser.Id && currentUser.Role != Role.Admin)
                 return Unauthorized(new { message = "Unauthorized" });
 

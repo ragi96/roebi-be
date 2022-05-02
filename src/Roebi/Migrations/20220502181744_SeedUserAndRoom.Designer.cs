@@ -10,8 +10,8 @@ using Roebi.Common.Context;
 namespace Roebi.Migrations
 {
     [DbContext(typeof(RoebiContext))]
-    [Migration("20220501144105_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220502181744_SeedUserAndRoom")]
+    partial class SeedUserAndRoom
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,36 @@ namespace Roebi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Room");
+                });
+
+            modelBuilder.Entity("Roebi.UserManagment.Domain.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }
