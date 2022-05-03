@@ -36,3 +36,4 @@ services:
       - DBPORT=3306
       - DBPASSWORD=development
       - DBNAME=roebi
+      - DBUSER=root

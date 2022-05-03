@@ -43,11 +43,12 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
-var host = builder.Configuration["DBHOST"] ?? "localhost";
+var host = builder.Configuration["DBHOST"] ?? "10.100.204.51";
 var port = builder.Configuration["DBPORT"] ?? "3306";
 var password = builder.Configuration["DBPASSWORD"] ?? "development";
 var db = builder.Configuration["DBNAME"] ?? "roebi";
-var connectionString = $"server={host}; userid=root; pwd={password};"
+var user = builder.Configuration["DBUSER"] ?? "roebi";
+var connectionString = $"server={host}; userid={user}; pwd={password};"
         + $"port={port}; database={db};SslMode=none;allowpublickeyretrieval=True;";
 
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
