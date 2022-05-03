@@ -43,14 +43,7 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
-var host = builder.Configuration["DBHOST"] ?? "10.100.204.51";
-var port = builder.Configuration["DBPORT"] ?? "3306";
-var password = builder.Configuration["DBPASSWORD"] ?? "development";
-var db = builder.Configuration["DBNAME"] ?? "roebi";
-var user = builder.Configuration["DBUSER"] ?? "roebi";
-var connectionString = $"server={host}; userid={user}; pwd={password};"
-        + $"port={port}; database={db};SslMode=none;allowpublickeyretrieval=True;";
-
+var connectionString = builder.Configuration.GetConnectionString("Database");
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
 builder.Services.AddDbContext<RoebiContext>(options => options.UseMySql(connectionString, serverVersion, options => options.EnableRetryOnFailure()));
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
