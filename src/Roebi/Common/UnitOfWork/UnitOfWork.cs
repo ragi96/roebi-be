@@ -1,4 +1,5 @@
 ﻿using Roebi.Common.Context;
+using Roebi.LogManagment.Application.Repository;
 using Roebi.PatientManagment.Application.Repository;
 using Roebi.UserManagment.Application.Repository;
 
@@ -12,6 +13,8 @@ namespace Roebi.Common.UnitOfWork
             this.context = context;
             Room = new RoomRepository(this.context);
             User = new UserRepository(this.context);
+            Log = new LogRepository(this.context);
+
         }
         public IRoomRepository Room
         {
@@ -20,6 +23,12 @@ namespace Roebi.Common.UnitOfWork
         }
 
         public IUserRepository User
+        {
+            get;
+            private set;
+        }
+
+        public ILogRepository Log
         {
             get;
             private set;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Roebi.LogManagment.Domain;
 using Roebi.PatientManagment.Domain;
 using Roebi.UserManagment.Domain;
 
@@ -9,6 +10,7 @@ namespace Roebi.Common.Context
         public RoebiContext(DbContextOptions options) : base(options)
         {
         }
+        public DbSet<Log> Logs { get; set; }
 
         public DbSet<Room> Rooms { get; set; }
         public DbSet<User> Users { get; set; }

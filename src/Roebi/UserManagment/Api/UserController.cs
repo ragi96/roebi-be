@@ -7,6 +7,7 @@
     using Roebi.Auth.Messages;
     using Roebi.Common.UnitOfWork;
     using Roebi.Helper;
+    using Roebi.LogManagment.Domain;
     using Roebi.UserManagment.Domain;
 
     [ApiController]
@@ -29,11 +30,15 @@
         {
             User user = unitOfWork.User.Find(x => x.Username == model.Username).First();
 
-            if (user == null || !BCrypt.Verify(model.Password, user.PasswordHash))
+            if (user == null || !BCrypt.Verify(model.Password, user.PasswordHash)) {
+                unitOfWork.Log.Add(new Log($"User: {model.Username} login failed"));
+                unitOfWork.Save();
                 throw new AppException("Username or password is incorrect");
+            }
 
             var jwtToken = _jwtUtils.GenerateJwtToken(user);
-
+            unitOfWork.Log.Add(new Log($"User: {user.Username} successful login"));
+            unitOfWork.Save();
             return Ok(new AuthenticateResponse(user, jwtToken));
         }
 
@@ -41,6 +46,9 @@
         [HttpGet]
         public IActionResult GetAll()
         {
+            var currentUser = HttpContext.Items["User"] as User;
+            unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all users"));
+            unitOfWork.Save();
             return Ok(unitOfWork.User.GetAll());
         }
 
@@ -49,7 +57,7 @@
         {
             // only admins can access other user records
             var currentUser = HttpContext.Items["User"] as User;
-            if (id != currentUser.Id && currentUser.Role != Role.Admin)
+            if (id != currentUser?.Id && currentUser?.Role != Role.Admin)
                 return Unauthorized(new { message = "Unauthorized" });
 
             var user = unitOfWork.User.GetById(id);

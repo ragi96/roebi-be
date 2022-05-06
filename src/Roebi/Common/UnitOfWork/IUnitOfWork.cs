@@ -1,4 +1,5 @@
-﻿using Roebi.PatientManagment.Application.Repository;
+﻿using Roebi.LogManagment.Application.Repository;
+using Roebi.PatientManagment.Application.Repository;
 using Roebi.UserManagment.Application.Repository;
 
 namespace Roebi.Common.UnitOfWork
@@ -10,6 +11,11 @@ namespace Roebi.Common.UnitOfWork
             get;
         }
         IUserRepository User
+        {
+            get;
+        }
+
+        ILogRepository Log
         {
             get;
         }
