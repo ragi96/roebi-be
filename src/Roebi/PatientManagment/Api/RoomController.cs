@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Roebi.Common.UnitOfWork;
+using Roebi.Auth;
 using Roebi.PatientManagment.Domain;
+using Roebi.UserManagment.Domain;
 
 namespace Roebi.RoomManagment.Api
 {
-    [Authorize]
+
+    [Authorize(Role.Admin, Role.User)]
     [ApiController]
     [Route("[controller]")]
     public class RoomController : ControllerBase
