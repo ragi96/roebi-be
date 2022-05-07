@@ -14,12 +14,12 @@
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private IJwtUtils _jwtUtils;
 
         public UserController(IUnitOfWork unitOfWork, IJwtUtils jwtUtils)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _jwtUtils = jwtUtils;
         }
 
@@ -28,17 +28,17 @@
         [HttpPost("[action]")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
-            User user = unitOfWork.User.Find(x => x.Username == model.Username).First();
+            User user = _unitOfWork.User.Find(x => x.Username == model.Username).First();
 
             if (user == null || !BCrypt.Verify(model.Password, user.PasswordHash)) {
-                unitOfWork.Log.Add(new Log($"User: {model.Username} login failed"));
-                unitOfWork.Save();
+                _unitOfWork.Log.Add(new Log($"User: {model.Username} login failed"));
+                _unitOfWork.Save();
                 throw new AppException("Username or password is incorrect");
             }
 
             var jwtToken = _jwtUtils.GenerateJwtToken(user);
-            unitOfWork.Log.Add(new Log($"User: {user.Username} successful login"));
-            unitOfWork.Save();
+            _unitOfWork.Log.Add(new Log($"User: {user.Username} successful login"));
+            _unitOfWork.Save();
             return Ok(new AuthenticateResponse(user, jwtToken));
         }
 
@@ -47,9 +47,9 @@
         public IActionResult GetAll()
         {
             var currentUser = HttpContext.Items["User"] as User;
-            unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all users"));
-            unitOfWork.Save();
-            return Ok(unitOfWork.User.GetAll());
+            _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all users"));
+            _unitOfWork.Save();
+            return Ok(_unitOfWork.User.GetAll());
         }
 
         [HttpGet("{id:int}")]
@@ -60,7 +60,7 @@
             if (id != currentUser?.Id && currentUser?.Role != Role.Admin)
                 return Unauthorized(new { message = "Unauthorized" });
 
-            var user = unitOfWork.User.GetById(id);
+            var user = _unitOfWork.User.GetById(id);
             return Ok(user);
         }
     }

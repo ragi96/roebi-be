@@ -7,13 +7,13 @@ namespace Roebi.Common.UnitOfWork
 {
     public sealed class UnitOfWork : IUnitOfWork
     {
-        private RoebiContext context;
+        private RoebiContext _context;
         public UnitOfWork(RoebiContext context)
         {
-            this.context = context;
-            Room = new RoomRepository(this.context);
-            User = new UserRepository(this.context);
-            Log = new LogRepository(this.context);
+            _context = context;
+            Room = new RoomRepository(_context);
+            User = new UserRepository(_context);
+            Log = new LogRepository(_context);
 
         }
         public IRoomRepository Room
@@ -36,12 +36,12 @@ namespace Roebi.Common.UnitOfWork
 
         public void Dispose()
         {
-            context.Dispose();
+            _context.Dispose();
             GC.SuppressFinalize(this);
         }
         public int Save()
         {
-            return context.SaveChanges();
+            return _context.SaveChanges();
         }
     }
 }

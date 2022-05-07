@@ -12,36 +12,36 @@ namespace Roebi.RoomManagment.Api
     [Route("[controller]")]
     public class RoomController : ControllerBase
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RoomController(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public IEnumerable<Room> GetRooms()
         {
-            return unitOfWork.Room.GetAll();
+            return _unitOfWork.Room.GetAll();
         }
 
         [HttpGet("{id}")]
         public Room GetSingleRoom(int id) 
         {
-            return unitOfWork.Room.GetById(id);
+            return _unitOfWork.Room.GetById(id);
         }
 
         [HttpPost]
         public void Post([FromBody] Room room)
         {
-            unitOfWork.Room.Add(room);
-            unitOfWork.Save();
+            _unitOfWork.Room.Add(room);
+            _unitOfWork.Save();
         }
 
         [HttpPut]
         public void Put(Room room) {
-            unitOfWork.Room.Update(room);
-            unitOfWork.Save();
+            _unitOfWork.Room.Update(room);
+            _unitOfWork.Save();
         }
        
     }

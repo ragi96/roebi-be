@@ -11,11 +11,11 @@ namespace Roebi.LogManagment.Api
     [Authorize(Role.Admin)]
     public class LogController : ControllerBase
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public LogController(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         [Authorize(Role.Admin)]
@@ -23,9 +23,9 @@ namespace Roebi.LogManagment.Api
         public IActionResult GetAll()
         {
             var currentUser = HttpContext.Items["User"] as User;
-            unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all Logs"));
-            unitOfWork.Save();
-            return Ok(unitOfWork.Log.GetAll());
+            _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all Logs"));
+            _unitOfWork.Save();
+            return Ok(_unitOfWork.Log.GetAll());
         }
     }
 }
