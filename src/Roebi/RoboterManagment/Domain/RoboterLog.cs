@@ -16,10 +16,5 @@
         public string Message { get; set; }
 
         public Type type { get; set; }
-
-        public RoboterLog(string message) {
-            Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-            this.Message = message;
-        }
     }
 }
