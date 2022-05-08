@@ -15,7 +15,7 @@
 
         public string Message { get; set; }
 
-        public Log(string message) { 
+        public Log(string message) {
             Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
             this.Message = message;
         }
