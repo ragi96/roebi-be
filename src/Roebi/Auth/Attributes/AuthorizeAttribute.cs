@@ -11,7 +11,7 @@ namespace Roebi.Auth
 
         public AuthorizeAttribute(params Role[] roles)
         {
-            _roles = roles ?? new Role[] { };
+            _roles = roles ?? Array.Empty<Role>();
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
