@@ -19,6 +19,11 @@ namespace Roebi.Common.UnitOfWork
         {
             get;
         }
+
+        IRoboterLogRepository RoboterLog
+        {
+            get;
+        }
         int Save();
     }
 }

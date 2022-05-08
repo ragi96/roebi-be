@@ -1,6 +1,7 @@
 ﻿using Roebi.Common.Context;
 using Roebi.LogManagment.Application.Repository;
 using Roebi.PatientManagment.Application.Repository;
+using Roebi.RoboterManagment.Application.Repository;
 using Roebi.UserManagment.Application.Repository;
 
 namespace Roebi.Common.UnitOfWork
@@ -14,6 +15,7 @@ namespace Roebi.Common.UnitOfWork
             Room = new RoomRepository(_context);
             User = new UserRepository(_context);
             Log = new LogRepository(_context);
+            RoboterLog = new RoboterLogRepository(_context);
 
         }
         public IRoomRepository Room
@@ -29,6 +31,12 @@ namespace Roebi.Common.UnitOfWork
         }
 
         public ILogRepository Log
+        {
+            get;
+            private set;
+        }
+
+        public IRoboterLogRepository RoboterLog
         {
             get;
             private set;
