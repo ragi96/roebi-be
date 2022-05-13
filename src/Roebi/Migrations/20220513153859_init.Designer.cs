@@ -10,8 +10,8 @@ using Roebi.Common.Context;
 namespace Roebi.Migrations
 {
     [DbContext(typeof(RoebiContext))]
-    [Migration("20220508145800_RoboterLog")]
-    partial class RoboterLog
+    [Migration("20220513153859_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,27 @@ namespace Roebi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Room");
+                });
+
+            modelBuilder.Entity("Roebi.RoboterManagment.Domain.RoboterLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("Timestamp")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoboterLog");
                 });
 
             modelBuilder.Entity("Roebi.UserManagment.Domain.User", b =>

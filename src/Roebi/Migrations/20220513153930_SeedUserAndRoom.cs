@@ -4,10 +4,8 @@
 
 namespace Roebi.Migrations
 {
-    using Roebi.UserManagment.Domain;
     public partial class SeedUserAndRoom : Migration
     {
-        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("INSERT INTO Room(Name) Values ('Raum 1')");

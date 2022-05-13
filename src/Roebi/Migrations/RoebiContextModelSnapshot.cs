@@ -50,6 +50,27 @@ namespace Roebi.Migrations
                     b.ToTable("Room");
                 });
 
+            modelBuilder.Entity("Roebi.RoboterManagment.Domain.RoboterLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("Timestamp")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoboterLog");
+                });
+
             modelBuilder.Entity("Roebi.UserManagment.Domain.User", b =>
                 {
                     b.Property<int>("Id")
