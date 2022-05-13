@@ -15,5 +15,7 @@ namespace Roebi.Common.Context
         public DbSet<RoboterLog> RoboterLogs { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Medicine> Medicines { get; set; }
     }
 }
