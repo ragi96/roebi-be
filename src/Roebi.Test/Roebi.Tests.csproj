@@ -32,4 +32,8 @@
     <ProjectReference Include="..\Roebi\Roebi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Auth\" />
+  </ItemGroup>
+
 </Project>

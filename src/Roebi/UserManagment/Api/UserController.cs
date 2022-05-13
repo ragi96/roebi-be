@@ -14,7 +14,7 @@
     public class UserController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private IJwtUtils _jwtUtils;
+        private readonly IJwtUtils _jwtUtils;
 
         public UserController(IUnitOfWork unitOfWork, IJwtUtils jwtUtils)
         {
