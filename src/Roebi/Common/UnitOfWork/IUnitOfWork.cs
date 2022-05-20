@@ -24,6 +24,18 @@ namespace Roebi.Common.UnitOfWork
         {
             get;
         }
+
+
+        IPatientRepository Patient
+        {
+            get;
+        }
+
+
+        IMedicineRepository Medicine
+        {
+            get;
+        }
         int Save();
     }
 }
