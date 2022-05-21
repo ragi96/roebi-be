@@ -20,28 +20,28 @@ namespace Roebi.RoomManagment.Api
         }
 
         [HttpGet]
-        public IEnumerable<Room> GetRooms()
+        public ActionResult<IEnumerable<Room>> GetRooms()
         {
-            return _unitOfWork.Room.GetAll();
+            return Ok(_unitOfWork.Room.GetAll());
         }
 
         [HttpGet("{id}")]
-        public Room GetSingleRoom(int id) 
+        public ActionResult<Room> GetSingleRoom(int id) 
         {
-            return _unitOfWork.Room.GetById(id);
+            return Ok(_unitOfWork.Room.GetById(id));
         }
 
         [HttpPost]
-        public void Post([FromBody] Room room)
+        public IActionResult Post([FromBody] Room room)
         {
             _unitOfWork.Room.Add(room);
-            _unitOfWork.Save();
+            return Ok(_unitOfWork.Save());
         }
 
         [HttpPut]
-        public void Put(Room room) {
+        public IActionResult Put(Room room) {
             _unitOfWork.Room.Update(room);
-            _unitOfWork.Save();
+            return Ok(_unitOfWork.Save());
         }
        
     }

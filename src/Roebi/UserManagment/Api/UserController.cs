@@ -25,7 +25,7 @@
 
         [AllowAnonymous]
         [HttpPost("[action]")]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest model)
         {
             User user = _unitOfWork.User.Find(x => x.Username == model.Username).First();
 
@@ -43,7 +43,7 @@
 
         [Authorize(Role.Admin)]
         [HttpGet]
-        public IActionResult GetAll()
+        public ActionResult<IEnumerable<User>> GetAll()
         {
             var currentUser = HttpContext.Items["User"] as User;
             _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all users"));
@@ -60,20 +60,18 @@
             _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} updates from {user} to {user}"));
             user.PasswordHash = BCrypt.HashPassword(user.PasswordHash);
             _unitOfWork.User.Update(user);
-            _unitOfWork.Save();
-            return Ok();
+            return Ok(_unitOfWork.Save());
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        public ActionResult<User> GetById(int id)
         {
             // only admins can access other user records
             var currentUser = HttpContext.Items["User"] as User;
             if (id != currentUser?.Id && currentUser?.Role != Role.Admin)
                 return Unauthorized(new { message = "Unauthorized" });
 
-            var user = _unitOfWork.User.GetById(id);
-            return Ok(user);
+            return Ok(_unitOfWork.User.GetById(id));
         }
 
         [Authorize(Role.Admin)]
