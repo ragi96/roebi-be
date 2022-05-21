@@ -36,6 +36,10 @@ namespace Roebi.Common.UnitOfWork
         {
             get;
         }
+        IMedicationRepository Medication
+        {
+            get;
+        }
         int Save();
     }
 }

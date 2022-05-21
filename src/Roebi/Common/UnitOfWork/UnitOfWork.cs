@@ -18,9 +18,16 @@ namespace Roebi.Common.UnitOfWork
             RoboterLog = new RoboterLogRepository(_context);
             Patient = new PatientRepository(_context);
             Medicine = new MedicineRepository(_context);
+            Medication = new MedicationRepository(_context);
         }
 
         public IMedicineRepository Medicine
+        {
+            get;
+            private set;
+        }
+
+        public IMedicationRepository Medication
         {
             get;
             private set;
