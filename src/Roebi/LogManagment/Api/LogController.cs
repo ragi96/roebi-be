@@ -20,7 +20,7 @@ namespace Roebi.LogManagment.Api
 
         [Authorize(Role.Admin)]
         [HttpGet]
-        public IActionResult GetAll()
+        public ActionResult<IEnumerable<Log>> GetAll()
         {
             var currentUser = HttpContext.Items["User"] as User;
             _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all Logs"));

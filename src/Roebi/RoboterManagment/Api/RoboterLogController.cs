@@ -20,7 +20,7 @@ namespace Roebi.RoboterManagment.Api
 
         [Authorize(Role.Admin)]
         [HttpGet]
-        public IActionResult GetAll()
+        public ActionResult<IEnumerable<RoboterLog>> GetAll()
         {
             return Ok(_unitOfWork.RoboterLog.GetAll());
         }
