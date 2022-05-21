@@ -1,10 +1,14 @@
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Roebi.Auth;
 using Roebi.Common.Context;
+using Roebi.Common.Profiles;
 using Roebi.Common.UnitOfWork;
 using Roebi.Helper;
 using Roebi.Middleware;
+using Roebi.PatientManagment.Application.Dto;
+using Roebi.PatientManagment.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +53,16 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
+
+
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new UserProfile());
+});
+
+var mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 
 var app = builder.Build();
 

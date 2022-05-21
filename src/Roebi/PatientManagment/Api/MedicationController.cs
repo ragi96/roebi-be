@@ -3,6 +3,8 @@ using Roebi.Common.UnitOfWork;
 using Roebi.Auth;
 using Roebi.PatientManagment.Domain;
 using Roebi.UserManagment.Domain;
+using AutoMapper;
+using Roebi.PatientManagment.Application.Dto;
 
 namespace Roebi.PatientManagment.Api
 {
@@ -12,10 +14,13 @@ namespace Roebi.PatientManagment.Api
     public class MedicationController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        public readonly IMapper _mapper;
 
-        public MedicationController(IUnitOfWork unitOfWork)
+
+        public MedicationController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -31,8 +36,11 @@ namespace Roebi.PatientManagment.Api
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Medication medication)
+        public IActionResult Post([FromBody] MedicationDto medicationDto)
         {
+            Medication medication = _mapper.Map<Medication>(medicationDto);
+            medication.Patient = _unitOfWork.Patient.GetById(medicationDto.Patient);
+            medication.Medicine = _unitOfWork.Medicine.GetById(medicationDto.Medicine);
             _unitOfWork.Medication.Add(medication);
             return Ok(_unitOfWork.Save());
         }
