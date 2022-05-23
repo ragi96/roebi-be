@@ -36,7 +36,7 @@ namespace Roebi.PatientManagment.Api
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] MedicationDto medicationDto)
+        public IActionResult Post([FromBody] AddMedicationDto medicationDto)
         {
             Medication medication = _mapper.Map<Medication>(medicationDto);
             medication.Patient = _unitOfWork.Patient.GetById(medicationDto.Patient);
@@ -46,7 +46,7 @@ namespace Roebi.PatientManagment.Api
         }
 
         [HttpPut]
-        public IActionResult Put(MedicationDto medicationDto)
+        public IActionResult Put(UpdateMedicationDto medicationDto)
         {
             Medication medication = _mapper.Map<Medication>(medicationDto);
             medication.Patient = _unitOfWork.Patient.GetById(medicationDto.Patient);
