@@ -2,6 +2,7 @@
 using Roebi.Common.Context;
 using Roebi.PatientManagment.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Roebi.PatientManagment.Application.Repository
 {
@@ -25,6 +26,13 @@ namespace Roebi.PatientManagment.Application.Repository
                 .ThenInclude(patient => patient.Room)
                 .Include(medication => medication.Medicine)
                 .SingleOrDefault(x => x.Id == id);
+        }
+
+        public new IEnumerable<Medication> Find(Expression<Func<Medication, bool>> expression)
+        {
+            return _context.Set<Medication>().Where(expression).OrderBy(medication => medication.TakingStamp).Include(medication => medication.Patient)
+                .ThenInclude(patient => patient.Room)
+                .Include(medication => medication.Medicine);
         }
     }
 }
