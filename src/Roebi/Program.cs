@@ -66,6 +66,14 @@ builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
+
+// 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<RoebiContext>();
+    context.Database.Migrate();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
