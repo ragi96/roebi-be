@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Roebi.RoboterManagment.Domain;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Roebi.PatientManagment.Domain
@@ -17,5 +18,7 @@ namespace Roebi.PatientManagment.Domain
 
         [Required]
         public long TakingStamp { get; set; }
+
+        public Job? Job { get; set; }
     }
 }

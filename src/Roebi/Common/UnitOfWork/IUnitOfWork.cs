@@ -40,6 +40,11 @@ namespace Roebi.Common.UnitOfWork
         {
             get;
         }
+
+        IJobRepository Job
+        {
+            get;
+        }
         int Save();
     }
 }

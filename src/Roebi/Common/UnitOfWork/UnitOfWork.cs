@@ -19,6 +19,7 @@ namespace Roebi.Common.UnitOfWork
             Patient = new PatientRepository(_context);
             Medicine = new MedicineRepository(_context);
             Medication = new MedicationRepository(_context);
+            Job = new JobRepository(_context);
         }
 
         public IMedicineRepository Medicine
@@ -57,6 +58,12 @@ namespace Roebi.Common.UnitOfWork
         }
 
         public IRoboterLogRepository RoboterLog
+        {
+            get;
+            private set;
+        }
+
+        public IJobRepository Job
         {
             get;
             private set;

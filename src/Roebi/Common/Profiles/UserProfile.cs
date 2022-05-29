@@ -2,6 +2,8 @@
 
 using Roebi.PatientManagment.Application.Dto;
 using Roebi.PatientManagment.Domain;
+using Roebi.RoboterManagment.Application.Dto;
+using Roebi.RoboterManagment.Domain;
 
 namespace Roebi.Common.Profiles
 {
@@ -13,6 +15,7 @@ namespace Roebi.Common.Profiles
             CreateMap<Medication, AddMedicationDto>().ReverseMap();
             CreateMap<Patient, int>().ConstructUsing(source => source.Id).ReverseMap();
             CreateMap<Medicine, int>().ConstructUsing(source => source.Id).ReverseMap();
+            CreateMap<Job, CreatedJob>().ReverseMap();
 
         }
     }
