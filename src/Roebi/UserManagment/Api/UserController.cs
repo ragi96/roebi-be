@@ -1,5 +1,6 @@
 ﻿namespace Roebi.UserManagment.Api
 {
+    using System.Text.Json;
     using BCrypt.Net;
     using Microsoft.AspNetCore.Mvc;
     using Roebi.Auth;
@@ -52,9 +53,6 @@
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetAll()
         {
-            var currentUser = HttpContext.Items["User"] as User;
-            _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all users"));
-            _unitOfWork.Save();
             return Ok(_unitOfWork.User.GetAll());
         }
 
@@ -62,9 +60,8 @@
         [HttpPut]
         public IActionResult Put(User user)
         {
-            var currentUser = HttpContext.Items["User"] as User;
-            //var oldUser = _unitOfWork.User.GetById(user.Id);
-            _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} updates from {user} to {user}"));
+            var activeUser = HttpContext.Items["User"] as User;
+            _unitOfWork.Log.Add(new Log($"User: {activeUser?.Username} updated room {user?.Id} to {JsonSerializer.Serialize<User>(user)}"));
             user.PasswordHash = BCrypt.HashPassword(user.PasswordHash);
             _unitOfWork.User.Update(user);
             return Ok(_unitOfWork.Save());
@@ -88,7 +85,7 @@
             var currentUser = HttpContext.Items["User"] as User;
             var user = _unitOfWork.User.GetById(id);
             if (user != null) {
-                _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} deletes {user}"));
+                _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} deletes {JsonSerializer.Serialize<User>(user)}"));
                 _unitOfWork.User.Remove(user);
                 _unitOfWork.Save();
             }
@@ -102,7 +99,7 @@
             var currentUser = HttpContext.Items["User"] as User;
             user.PasswordHash = BCrypt.HashPassword(user.PasswordHash);
             _unitOfWork.User.Add(user);
-            _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} creates {user}"));
+            _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} creates {JsonSerializer.Serialize<User>(user)}"));
             _unitOfWork.Save();
             return Ok();
         }

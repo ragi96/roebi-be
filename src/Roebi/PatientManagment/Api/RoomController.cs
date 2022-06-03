@@ -3,6 +3,8 @@ using Roebi.Common.UnitOfWork;
 using Roebi.Auth;
 using Roebi.PatientManagment.Domain;
 using Roebi.UserManagment.Domain;
+using Roebi.LogManagment.Domain;
+using System.Text.Json;
 
 namespace Roebi.RoomManagment.Api
 {
@@ -34,12 +36,17 @@ namespace Roebi.RoomManagment.Api
         [HttpPost]
         public IActionResult Post([FromBody] Room room)
         {
+            User? user = HttpContext.Items["User"] as User;
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} created room: {JsonSerializer.Serialize<Room>(room)}"));
             _unitOfWork.Room.Add(room);
             return Ok(_unitOfWork.Save());
         }
 
         [HttpPut]
-        public IActionResult Put(Room room) {
+        public IActionResult Put(Room room)
+        {
+            User? user = HttpContext.Items["User"] as User;
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} updated room {room.Id} to {JsonSerializer.Serialize<Room>(room)}"));
             _unitOfWork.Room.Update(room);
             return Ok(_unitOfWork.Save());
         }

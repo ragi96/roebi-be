@@ -5,6 +5,8 @@ using Roebi.PatientManagment.Domain;
 using Roebi.UserManagment.Domain;
 using AutoMapper;
 using Roebi.PatientManagment.Application.Dto;
+using Roebi.LogManagment.Domain;
+using System.Text.Json;
 
 namespace Roebi.PatientManagment.Api
 {
@@ -44,9 +46,11 @@ namespace Roebi.PatientManagment.Api
         [HttpPost]
         public IActionResult Post([FromBody] AddMedicationDto medicationDto)
         {
+            User? user = HttpContext.Items["User"] as User;
             Medication medication = _mapper.Map<Medication>(medicationDto);
             medication.Patient = _unitOfWork.Patient.GetById(medicationDto.Patient);
             medication.Medicine = _unitOfWork.Medicine.GetById(medicationDto.Medicine);
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} created medication: {JsonSerializer.Serialize<Medication>(medication)}"));
             _unitOfWork.Medication.Add(medication);
             return Ok(_unitOfWork.Save());
         }
@@ -54,10 +58,12 @@ namespace Roebi.PatientManagment.Api
         [HttpPut]
         public IActionResult Put(UpdateMedicationDto medicationDto)
         {
+            User? user = HttpContext.Items["User"] as User;
             Medication medication = _mapper.Map<Medication>(medicationDto);
             medication.Patient = _unitOfWork.Patient.GetById(medicationDto.Patient);
             medication.Medicine = _unitOfWork.Medicine.GetById(medicationDto.Medicine);
             _unitOfWork.Medication.Update(medication);
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} updated medication {medication.Id} to {JsonSerializer.Serialize<Medication>(medication)}"));
             return Ok(_unitOfWork.Save());
         }
     }

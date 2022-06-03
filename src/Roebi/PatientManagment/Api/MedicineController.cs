@@ -3,6 +3,8 @@ using Roebi.Common.UnitOfWork;
 using Roebi.Auth;
 using Roebi.PatientManagment.Domain;
 using Roebi.UserManagment.Domain;
+using Roebi.LogManagment.Domain;
+using System.Text.Json;
 
 namespace Roebi.PatientManagment.Api
 {
@@ -33,6 +35,8 @@ namespace Roebi.PatientManagment.Api
         [HttpPost]
         public IActionResult Post([FromBody] Medicine medicine)
         {
+            User? user = HttpContext.Items["User"] as User;
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} created medicine: {JsonSerializer.Serialize<Medicine>(medicine)}"));
             _unitOfWork.Medicine.Add(medicine);
             return Ok(_unitOfWork.Save());
         }
@@ -40,7 +44,9 @@ namespace Roebi.PatientManagment.Api
         [HttpPut]
         public IActionResult Put(Medicine medicine)
         {
+            User? user = HttpContext.Items["User"] as User;
             _unitOfWork.Medicine.Update(medicine);
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} updated medicine {medicine.Id} to {JsonSerializer.Serialize<Medicine>(medicine)}"));
             return Ok(_unitOfWork.Save());
         }
     }

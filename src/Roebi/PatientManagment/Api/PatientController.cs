@@ -5,6 +5,8 @@ using Roebi.PatientManagment.Domain;
 using Roebi.UserManagment.Domain;
 using Roebi.PatientManagment.Application.Dto;
 using AutoMapper;
+using Roebi.LogManagment.Domain;
+using System.Text.Json;
 
 namespace Roebi.PatientManagment.Api
 {
@@ -37,8 +39,10 @@ namespace Roebi.PatientManagment.Api
         [HttpPost]
         public IActionResult Post([FromBody] AddPatientDto patientDto)
         {
+            User? user = HttpContext.Items["User"] as User;
             var patient = new Patient(patientDto.LastName, patientDto.Firstname, patientDto.EntryStamp, patientDto.CaseHistory);
             patient.Room = _unitOfWork.Room.GetById(patientDto.Room);
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} created patient: {JsonSerializer.Serialize<Patient>(patient)}"));
             _unitOfWork.Patient.Add(patient);
             return Ok(_unitOfWork.Save());
         }
@@ -46,8 +50,10 @@ namespace Roebi.PatientManagment.Api
         [HttpPut]
         public IActionResult Put(UpdatePatientDto patientDto)
         {
+            User? user = HttpContext.Items["User"] as User;
             var patient = new Patient(patientDto.Id, patientDto.LastName, patientDto.Firstname, patientDto.EntryStamp, patientDto.ExitStamp, patientDto.CaseHistory);
             patient.Room = _unitOfWork.Room.GetById(patientDto.Room);
+            _unitOfWork.Log.Add(new Log($"User: {user?.Username} updated patient {patient.Id} to {JsonSerializer.Serialize<Patient>(patient)}"));
             _unitOfWork.Patient.Update(patient);
             return Ok(_unitOfWork.Save());
         }
