@@ -3,6 +3,7 @@
 
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Text.Json.Serialization;
 
     [Table("User")]
     public class User
@@ -17,6 +18,7 @@
         public string Username { get; set; }
         public Role Role { get; set; }
 
+        [JsonIgnore]
         public string PasswordHash { get; set; }
     }
 }

@@ -27,18 +27,25 @@
         [HttpPost("[action]")]
         public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest model)
         {
-            User user = _unitOfWork.User.Find(x => x.Username == model.Username).First();
+            User? user = _unitOfWork.User.Find(x => x.Username == model.Username).FirstOrDefault();
 
             if (user == null || !BCrypt.Verify(model.Password, user.PasswordHash)) {
                 _unitOfWork.Log.Add(new Log($"User: {model.Username} login failed"));
                 _unitOfWork.Save();
-                throw new AppException("Username or password is incorrect");
+                return NotFound();
             }
 
             var jwtToken = _jwtUtils.GenerateJwtToken(user);
             _unitOfWork.Log.Add(new Log($"User: {user.Username} successful login"));
             _unitOfWork.Save();
             return Ok(new AuthenticateResponse(user, jwtToken));
+        }
+
+        [Authorize(Role.Admin,Role.User,Role.Roboter)]
+        [HttpGet("current")]
+        public ActionResult<User> CurrentUser()
+        {
+            return Ok(HttpContext.Items["User"] as User);
         }
 
         [Authorize(Role.Admin)]

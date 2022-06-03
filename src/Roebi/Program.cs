@@ -59,8 +59,6 @@ var config = new MapperConfiguration(cfg =>
 
 var mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
-
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
