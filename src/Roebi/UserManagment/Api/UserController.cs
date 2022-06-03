@@ -61,7 +61,7 @@
         public IActionResult Put(User user)
         {
             var activeUser = HttpContext.Items["User"] as User;
-            _unitOfWork.Log.Add(new Log($"User: {activeUser?.Username} updated room {user?.Id} to {JsonSerializer.Serialize<User>(user)}"));
+            _unitOfWork.Log.Add(new Log($"User: {activeUser?.Username} updated user {user?.Id} to {JsonSerializer.Serialize<User>(user)}"));
             user.PasswordHash = BCrypt.HashPassword(user.PasswordHash);
             _unitOfWork.User.Update(user);
             return Ok(_unitOfWork.Save());
