@@ -29,6 +29,12 @@ namespace Roebi.PatientManagment.Api
             return Ok(_unitOfWork.Medication.GetAll());
         }
 
+        [HttpGet("{id:int}/User")]
+        public ActionResult<IEnumerable<Medication>> GetByUserId(int id)
+        {
+            return Ok(_unitOfWork.Medication.Find(medication => medication.Patient.Id == id).ToList());
+        }
+
         [HttpGet("{id:int}")]
         public ActionResult<Medication> GetById(int id)
         {
