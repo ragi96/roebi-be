@@ -8,6 +8,7 @@
     using Roebi.Common.UnitOfWork;
     using Roebi.Helper;
     using Roebi.LogManagment.Domain;
+    using Roebi.UserManagment.Application.Dto;
     using Roebi.UserManagment.Domain;
 
     [ApiController]
@@ -69,6 +70,24 @@
             } else { 
                 return BadRequest(); 
             }
+        }
+
+        [Authorize(Role.Admin, Role.User, Role.Roboter)]
+        [HttpPut("/current")]
+        public IActionResult PutCurrentUser(UpdateUserDto user)
+        {
+            var activeUser = HttpContext.Items["User"] as User;
+            if (activeUser.Id == user.Id && user != null) { 
+                activeUser.FirstName = user.FirstName;
+                activeUser.LastName = user.LastName;
+                activeUser.Username = user.Username;
+                _unitOfWork.Log.Add(new Log($"User: {activeUser?.Username} updated user {activeUser?.Id} to {JsonSerializer.Serialize<User>(activeUser)}"));
+                _unitOfWork.User.Update(activeUser);
+                return Ok(_unitOfWork.Save());
+            } else {
+                return BadRequest();
+            }
+
         }
 
         [HttpGet("{id:int}")]
