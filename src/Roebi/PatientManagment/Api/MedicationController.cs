@@ -17,7 +17,7 @@ namespace Roebi.PatientManagment.Api
     {
         private readonly IUnitOfWork _unitOfWork;
         public readonly IMapper _mapper;
-
+        private static int TEN_MINUTES = 10 * 60 * 1000;
 
         public MedicationController(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -48,11 +48,21 @@ namespace Roebi.PatientManagment.Api
         {
             User? user = HttpContext.Items["User"] as User;
             Medication medication = _mapper.Map<Medication>(medicationDto);
-            medication.Patient = _unitOfWork.Patient.GetById(medicationDto.Patient);
-            medication.Medicine = _unitOfWork.Medicine.GetById(medicationDto.Medicine);
-            _unitOfWork.Log.Add(new Log($"User: {user?.Username} created medication: {JsonSerializer.Serialize<Medication>(medication)}"));
-            _unitOfWork.Medication.Add(medication);
-            return Ok(_unitOfWork.Save());
+            var MedicationsFuture = _unitOfWork.Medication.Find(med => med.TakingStamp > medication.TakingStamp && med.TakingStamp < medication.TakingStamp + TEN_MINUTES);
+            var MedicationsPast = _unitOfWork.Medication.Find(med => med.TakingStamp < medication.TakingStamp && med.TakingStamp > medication.TakingStamp - TEN_MINUTES);
+
+            if (MedicationsFuture.Count() <= 4 || MedicationsPast.Count() <= 4)
+            {
+                medication.Patient = _unitOfWork.Patient.GetById(medicationDto.Patient);
+                medication.Medicine = _unitOfWork.Medicine.GetById(medicationDto.Medicine);
+                _unitOfWork.Log.Add(new Log($"User: {user?.Username} created medication: {JsonSerializer.Serialize<Medication>(medication)}"));
+                _unitOfWork.Medication.Add(medication);
+                return Ok(_unitOfWork.Save());
+            } else {
+                return BadRequest(MedicationsFuture);
+            }
+
+
         }
 
         [HttpPut]

@@ -65,13 +65,13 @@
         public IActionResult Put(UpdateUserDto userDto)
         {
             if (userDto != null) {
-                //var activeUser = HttpContext.Items["User"] as User;
+                var activeUser = HttpContext.Items["User"] as User;
                 User user = _unitOfWork.User.GetById(userDto.Id);
                 user.FirstName = userDto.FirstName;
                 user.LastName = userDto.LastName;
                 user.Username = userDto.Username;
                 user.Role = userDto.Role;
-                _unitOfWork.Log.Add(new Log($"User: test updated user {user?.Id} to {JsonSerializer.Serialize<User>(user)}"));
+                _unitOfWork.Log.Add(new Log($"User: {activeUser.Username} updated user {user?.Id} to {JsonSerializer.Serialize<User>(user)}"));
                 _unitOfWork.User.Update(user);
                 return Ok(_unitOfWork.Save());
             } else {
@@ -83,8 +83,10 @@
         [HttpPut("change-password")]
         public IActionResult ChangePassword(PasswordUpdate passwordRequest){
             if (passwordRequest != null) {
+                var activeUser = HttpContext.Items["User"] as User;
                 var user = _unitOfWork.User.GetById(passwordRequest.Id);
                 user.PasswordHash = BCrypt.HashPassword(passwordRequest.Password);
+                _unitOfWork.Log.Add(new Log($"User: {activeUser.Username} changed password of {user.Username}"));
                 _unitOfWork.User.Update(user);
                 return Ok(_unitOfWork.Save());
             } else {
@@ -102,6 +104,7 @@
                 if (BCrypt.Verify(passwordRequest.OldPassword, user.PasswordHash))
                 {
                     user.PasswordHash = BCrypt.HashPassword(passwordRequest.NewPassword);
+                    _unitOfWork.Log.Add(new Log($"User: {user.Username} changed his password"));
                     _unitOfWork.User.Update(user);
                     return Ok(_unitOfWork.Save());
                 }
