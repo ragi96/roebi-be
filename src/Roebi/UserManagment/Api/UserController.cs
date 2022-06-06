@@ -1,6 +1,7 @@
 ﻿namespace Roebi.UserManagment.Api
 {
     using System.Text.Json;
+    using AutoMapper;
     using BCrypt.Net;
     using Microsoft.AspNetCore.Mvc;
     using Roebi.Auth;
@@ -17,11 +18,13 @@
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtUtils _jwtUtils;
+        public readonly IMapper _mapper;
 
-        public UserController(IUnitOfWork unitOfWork, IJwtUtils jwtUtils)
+        public UserController(IUnitOfWork unitOfWork, IJwtUtils jwtUtils, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _jwtUtils = jwtUtils;
+            _mapper = mapper;
         }
 
 
@@ -116,10 +119,11 @@
 
         [Authorize(Role.Admin)]
         [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        public IActionResult Post(AddUserDto userDto)
         {
             var currentUser = HttpContext.Items["User"] as User;
-            user.PasswordHash = BCrypt.HashPassword(user.PasswordHash);
+            userDto.PasswordHash = BCrypt.HashPassword(userDto.PasswordHash);
+            User user = _mapper.Map<User>(userDto);
             _unitOfWork.User.Add(user);
             _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} creates {JsonSerializer.Serialize<User>(user)}"));
             _unitOfWork.Save();

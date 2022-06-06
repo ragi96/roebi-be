@@ -4,6 +4,8 @@ using Roebi.PatientManagment.Application.Dto;
 using Roebi.PatientManagment.Domain;
 using Roebi.RoboterManagment.Application.Dto;
 using Roebi.RoboterManagment.Domain;
+using Roebi.UserManagment.Application.Dto;
+using Roebi.UserManagment.Domain;
 
 namespace Roebi.Common.Profiles
 {
@@ -18,6 +20,7 @@ namespace Roebi.Common.Profiles
             CreateMap<Job, CreatedJob>().ReverseMap();
             CreateMap<Patient, UpdateMedicationDto>().ReverseMap();
             CreateMap<AddPatientDto, Patient>().ReverseMap();
+            CreateMap<AddUserDto, User>().ReverseMap();
 
         }
     }
