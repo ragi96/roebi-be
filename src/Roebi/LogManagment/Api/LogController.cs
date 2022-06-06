@@ -22,9 +22,6 @@ namespace Roebi.LogManagment.Api
         [HttpGet]
         public ActionResult<IEnumerable<Log>> GetAll()
         {
-            var currentUser = HttpContext.Items["User"] as User;
-            _unitOfWork.Log.Add(new Log($"User: {currentUser?.Username} loads all Logs"));
-            _unitOfWork.Save();
             return Ok(_unitOfWork.Log.GetAll());
         }
     }
