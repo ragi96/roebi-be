@@ -21,6 +21,7 @@ namespace Roebi.Common.Profiles
             CreateMap<Patient, UpdateMedicationDto>().ReverseMap();
             CreateMap<AddPatientDto, Patient>().ReverseMap();
             CreateMap<AddUserDto, User>().ReverseMap();
+            CreateMap<UpdateUserDto, User>().ReverseMap();
 
         }
     }

@@ -46,7 +46,7 @@
             return Ok(new AuthenticateResponse(user, jwtToken));
         }
 
-        [Authorize(Role.Admin,Role.User,Role.Roboter)]
+        [Authorize(Role.Admin, Role.User, Role.Roboter)]
         [HttpGet("current")]
         public ActionResult<User> CurrentUser()
         {
@@ -62,22 +62,63 @@
 
         [Authorize(Role.Admin)]
         [HttpPut]
-        public IActionResult Put(User user)
+        public IActionResult Put(UpdateUserDto userDto)
         {
-            if (user != null) { 
-            var activeUser = HttpContext.Items["User"] as User;
-            _unitOfWork.Log.Add(new Log($"User: {activeUser?.Username} updated user {user?.Id} to {JsonSerializer.Serialize<User>(user)}"));
-            user.PasswordHash = BCrypt.HashPassword(user.PasswordHash);
-            _unitOfWork.User.Update(user);
-            return Ok(_unitOfWork.Save());
-            } else { 
-                return BadRequest(); 
+            if (userDto != null) {
+                //var activeUser = HttpContext.Items["User"] as User;
+                User user = _unitOfWork.User.GetById(userDto.Id);
+                user.FirstName = userDto.FirstName;
+                user.LastName = userDto.LastName;
+                user.Username = userDto.Username;
+                user.Role = userDto.Role;
+                _unitOfWork.Log.Add(new Log($"User: test updated user {user?.Id} to {JsonSerializer.Serialize<User>(user)}"));
+                _unitOfWork.User.Update(user);
+                return Ok(_unitOfWork.Save());
+            } else {
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Role.Admin)]
+        [HttpPut("change-password")]
+        public IActionResult ChangePassword(PasswordUpdate passwordRequest){
+            if (passwordRequest != null) {
+                var user = _unitOfWork.User.GetById(passwordRequest.Id);
+                user.PasswordHash = BCrypt.HashPassword(passwordRequest.Password);
+                _unitOfWork.User.Update(user);
+                return Ok(_unitOfWork.Save());
+            } else {
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Role.Admin)]
+        [HttpPut("current-change-password")]
+        public IActionResult ChangeCurrentPassword(PasswordCurrentUpdate passwordRequest)
+        {
+            if (passwordRequest != null)
+            {
+                var user = _unitOfWork.User.GetById(passwordRequest.Id);
+                if (BCrypt.Verify(passwordRequest.OldPassword, user.PasswordHash))
+                {
+                    user.PasswordHash = BCrypt.HashPassword(passwordRequest.NewPassword);
+                    _unitOfWork.User.Update(user);
+                    return Ok(_unitOfWork.Save());
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return BadRequest();
             }
         }
 
         [Authorize(Role.Admin, Role.User, Role.Roboter)]
-        [HttpPut("/current")]
-        public IActionResult PutCurrentUser(UpdateUserDto user)
+        [HttpPut("current")]
+        public IActionResult PutCurrentUser(UpdateCurrentUserDto user)
         {
             var activeUser = HttpContext.Items["User"] as User;
             if (activeUser.Id == user.Id && user != null) { 
