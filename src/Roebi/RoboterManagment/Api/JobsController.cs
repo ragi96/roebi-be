@@ -37,15 +37,15 @@ namespace Roebi.RoboterManagment.Api
                 return NotFound();
             }
             else {
-                /*foreach (var medication in medications) {
+                _unitOfWork.Job.Add(job);
+                foreach (var medication in medications) {
                     medication.Job = job;
                     _unitOfWork.Log.Add(new Log($"User: {user?.Username} update medicaton {medication.Id} to {JsonSerializer.Serialize<Medication>(medication)}"));
                     _unitOfWork.Medication.Update(medication);
-                }*/
-                _unitOfWork.Job.Add(job);
-                _unitOfWork.Save();
+                }
                 CreatedJob createdJob = _mapper.Map<CreatedJob>(job);
                 createdJob.Medication = medications.ToList();
+                _unitOfWork.Save();
                 return Ok(createdJob);
             }  
         }
